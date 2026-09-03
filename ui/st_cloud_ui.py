@@ -37,9 +37,12 @@ if "messages" not in st.session_state:
 with st.sidebar:
     st.title("🧠 Agent OS")
     st.markdown("---")
-
-    base_url = st.secrets.get("BACKEND_URL", os.getenv("BACKEND_URL", "http://localhost:8000"))
-
+    default_url = st.secrets.get("BACKEND_URL", os.getenv("BACKEND_URL", ""))
+    base_url = st.text_input(
+        "🔗 Backend API URL",
+        value=default_url or "http://localhost:8000",
+        help="Paste your live Render or Cloud Run backend URL here (e.g. https://your-app.onrender.com), or configure BACKEND_URL in Streamlit Secrets."
+    ).rstrip("/")
     st.markdown("---")
     st.success(f"Logfire: {LOGFIRE_STATUS}")
     st.info(f"Memory ID: {st.session_state.session_id[:8]}")
